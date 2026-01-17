@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Joshua</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-bottom: 30px;
+        }
+        
+        .bio {
+            font-size: 1.1em;
+            color: #555;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .skills {
+            margin-top: 40px;
+            text-align: left;
+        }
+        
+        .skills h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .skill {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .social-links {
+            margin-top: 30px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Joshua</h1>
+        <p class="title">Web Developer</p>
+        
+        <p class="bio">
+            Welcome to my about page! I'm a passionate web developer with expertise in creating 
+            modern, responsive, and user-friendly web applications. I love turning ideas into 
+            reality through clean code and innovative design.
+        </p>
+        
+        <div class="skills">
+            <h2>Skills</h2>
+            <div class="skills-list">
+                <div class="skill">HTML5</div>
+                <div class="skill">CSS3</div>
+                <div class="skill">JavaScript</div>
+                <div class="skill">React</div>
+                <div class="skill">Web Design</div>
+                <div class="skill">Responsive Design</div>
+            </div>
+        </div>
+        
+        <div class="social-links">
+            <a href="#github">GitHub</a>
+            <a href="#linkedin">LinkedIn</a>
+            <a href="#portfolio">Portfolio</a>
+        </div>
+    </div>
+</body>
+</html>
