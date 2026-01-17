@@ -1,130 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - Toy</title>
+    <title>TOY | Future Bigshot Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --primary: #bb86fc;
+            /* Neon Purple */
+            --secondary: #03dac6;
+            /* Neon Cyan */
+            --accent: #cf6679;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --glass-blur: 10px;
+            --font-main: 'Space Grotesk', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none;
+            /* Custom cursor */
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            transition: transform 0.1s;
+            z-index: 9999;
+        }
+
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* --- UTILITIES --- */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 8rem 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight {
+            color: var(--primary);
+        }
+
+        .highlight-secondary {
+            color: var(--secondary);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            background: rgba(5, 5, 5, 0.5);
+            padding-right: 2rem;
+            padding-left: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            padding: 20px;
+            align-items: flex-start;
+            height: 100vh;
+            padding-top: 0;
         }
-        
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            padding: 60px 40px;
-            text-align: center;
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
         }
-        
-        h1 {
-            font-size: 2.5em;
-            color: #667eea;
-            margin-bottom: 10px;
+
+        .hero h2 {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 300;
+            color: #888;
+            margin-bottom: 2rem;
         }
-        
-        .title {
-            font-size: 1.3em;
-            color: #764ba2;
-            margin-bottom: 30px;
+
+        .hero-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.1rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-block;
+            margin-top: 2rem;
         }
-        
-        .bio {
-            font-size: 1.1em;
-            color: #555;
-            margin: 20px 0;
-            line-height: 1.8;
+
+        .hero-btn:hover {
+            background: var(--primary);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px 0 rgba(187, 134, 252, 0.5);
         }
-        
-        .skills {
-            margin-top: 40px;
-            text-align: left;
+
+        /* --- ABOUT --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
-        
-        .skills h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            text-align: center;
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #bbb;
         }
-        
-        .skills-list {
+
+        .profile-img-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, var(--card-bg), transparent);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-img-placeholder::before {
+            content: 'TOY';
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.05);
+            transform: rotate(-45deg);
+        }
+
+        /* --- SKILLS --- */
+        .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 2rem;
+            width: 100%;
+            margin-top: 3rem;
         }
-        
-        .skill {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(3, 218, 198, 0.1);
+        }
+
+        .skill-card h3 {
+            margin-top: 1rem;
             font-weight: 500;
-            color: #333;
         }
-        
+
+        /* --- PROJECTS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .project-img {
+            height: 200px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .project-info p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            font-size: 0.8rem;
+            background: rgba(187, 134, 252, 0.1);
+            /* Primary low opacity */
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+        }
+
+        /* --- CONTACT --- */
+        .contact {
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .contact h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
         .social-links {
-            margin-top: 30px;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
         }
-        
-        .social-links a {
-            display: inline-block;
-            margin: 0 15px;
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s ease;
+
+        .social-btn {
+            font-size: 1.5rem;
+            transition: var(--transition);
         }
-        
-        .social-links a:hover {
-            background: #764ba2;
+
+        .social-btn:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        /* --- ANIMATION KEYFRAMES --- */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Simplified for MVP */
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>TOY</h1>
-        <p class="title">Web Developer</p>
-        
-        <p class="bio">
-            Welcome to my about page! I'm a passionate web developer with expertise in creating 
-            modern, responsive, and user-friendly web applications. I love turning ideas into 
-            reality through clean code and innovative design.
-        </p>
-        
-        <div class="skills">
-            <h2>Skills</h2>
-            <div class="skills-list">
-                <div class="skill">HTML5</div>
-                <div class="skill">CSS3</div>
-                <div class="skill">JavaScript</div>
-                <div class="skill">React</div>
-                <div class="skill">Web Design</div>
-                <div class="skill">Responsive Design</div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">TOY<span class="highlight-secondary">.</span></div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="container hero section visible">
+        <div>
+            <h1>Hi, I'm <span class="highlight">TOY</span></h1>
+            <h2>I'm <span id="typing-text"></span><span class="cursor-blink">|</span></h2>
+            <p style="max-width: 500px; margin-bottom: 2rem; color: #888;">
+                Crafting digital experiences with code and creativity.
+                Focused on building premium software layout and scalable aesthetics.
+            </p>
+            <a href="#projects" class="hero-btn">See My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container section">
+        <div class="about-content">
+            <div class="profile-img-placeholder">
+                <!-- Placeholder for image -->
+            </div>
+            <div class="about-text">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Behind the Code</h2>
+                <p>
+                    I'm an aspiring software engineer with a passion for high-performance applications and stunning user
+                    interfaces.
+                </p>
+                <p>
+                    My journey is just beginning, but my ambition is limitless. I believe in writing clean, efficient
+                    code and pushing the boundaries of what's possible on the web.
+                </p>
+                <p>
+                    When I'm not coding, I'm learning new technologies, analyzing system architectures, or refining my
+                    design sense.
+                </p>
             </div>
         </div>
-        
-        <div class="social-links">
-            <a href="#github">GitHub</a>
-            <a href="#linkedin">LinkedIn</a>
-            <a href="#portfolio">Portfolio</a>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container section" style="flex-direction: column; align-items: flex-start;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">My Arsenal</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>HTML5 & CSS3</h3>
+                <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Semantic & Modern</p>
+            </div>
+            <div class="skill-card">
+                <h3>JavaScript</h3>
+                <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">ES6+ (Vanilla)</p>
+            </div>
+            <div class="skill-card">
+                <h3>Python</h3>
+                <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Scripting & Backend</p>
+            </div>
+            <div class="skill-card">
+                <h3>Git & GitHub</h3>
+                <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Version Control</p>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container section" style="flex-direction: column; align-items: flex-start;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 3rem;">Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-img">Project Preview</div>
+                <div class="project-info">
+                    <h3>Portfolio V1</h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                    </div>
+                    <p>The dark-themed portfolio website you are currently looking at.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">Project Preview</div>
+                <div class="project-info">
+                    <h3>E-Commerce Dashboard</h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">JS</span>
+                        <span class="tech-tag">API</span>
+                    </div>
+                    <p>A conceptual dashboard for tracking sales and inventory management.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">Project Preview</div>
+                <div class="project-info">
+                    <h3>Task Manager</h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">CLI</span>
+                    </div>
+                    <p>A command-line tool for managing daily tasks and productivity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container section contact">
+        <h2>Let's Do Business</h2>
+        <p>I'm currently available for freelance work and internships. If you have a project that needs a future
+            bigshot, let's talk.</p>
+        <a href="mailto:toy@example.com" class="hero-btn">Get In Touch</a>
+
+        <div class="social-links" style="margin-top: 3rem;">
+            <a href="#" class="social-btn">GitHub</a>
+            <a href="#" class="social-btn">LinkedIn</a>
+            <a href="#" class="social-btn">Twitter</a>
+        </div>
+
+        <footer style="margin-top: 5rem; color: #444; font-size: 0.8rem;">
+            <p>&copy; 2026 TOY. Built From Scratch.</p>
+        </footer>
+    </section>
+
+    <script>
+        // --- CUSTOM CURSOR ---
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect to interactive elements
+        document.querySelectorAll('a, button, .project-card, .skill-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                cursor.style.borderColor = 'var(--secondary)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = 'var(--primary)';
+            });
+        });
+
+        // --- TYPING EFFECT ---
+        const texts = ["Learning to be a Bigshot", "Building the Future", "Writing Clean Code"];
+        let count = 0;
+        let index = 0;
+        let currentText = "";
+        let letter = "";
+
+        (function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+
+            document.getElementById('typing-text').textContent = letter;
+
+            if (letter.length === currentText.length) {
+                count++;
+                index = 0;
+                setTimeout(type, 2000); // Pause at end
+            } else {
+                setTimeout(type, 100);
+            }
+        })();
+
+        // --- SCROLL ANIMATION ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach((section) => {
+            observer.observe(section);
+        });
+    </script>
 </body>
+
 </html>
